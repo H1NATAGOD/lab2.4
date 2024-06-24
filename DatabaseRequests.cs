@@ -94,7 +94,7 @@ public class DatabaseRequests
         }
     }
     
-    public static void UpdateTask()
+  public static void UpdateTask()
     {
         Console.Write($"Введите ID Задачи, которую хотите Обновить: ");
         int idtask = int.Parse(Console.ReadLine());
@@ -115,15 +115,14 @@ public class DatabaseRequests
             return;
         }
 
-        Models.Task newTask = new Task()
+        var updateTask = DatabaseServisce.GetDbContext().Tasks.FirstOrDefault(n => n.Idtask == idtask);
+        if (updateTask != null)
         {
-            Userid = activeUser,
-            Nametask = title,
-            Description = desckription,
-            DateOfTask = dateOfTask
-        };
-        DatabaseServisce.GetDbContext().Tasks.Add(newTask);
-        DatabaseServisce.GetDbContext().SaveChanges();
+            updateTask.Nametask = title;
+            updateTask.Description = desckription;
+            updateTask.DateOfTask = dateOfTask;
+            DatabaseServisce.GetDbContext().SaveChanges();
+        }
 
     }
     
